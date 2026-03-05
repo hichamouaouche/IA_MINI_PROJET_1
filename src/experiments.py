@@ -1,11 +1,4 @@
-"""
-experiments.py — 4 expériences du mini-projet.
 
-E1 : UCS vs Greedy vs A*   sur 3 grilles (facile/moyenne/difficile)
-E2 : A* fixe, ε ∈ {0, 0.1, 0.2, 0.3} — impact sur robustesse Markov
-E3 : h=0 vs Manhattan      — admissibilité et dominance
-E4 : Weighted A*            — compromis vitesse / optimalité
-"""
 import os
 import numpy as np
 import matplotlib
@@ -62,10 +55,7 @@ def _draw_grid_on_ax(ax, grid, path=None, title=""):
 # ==================================================================
 
 def experiment_1():
-    """
-    Compare UCS, Greedy et A* sur grilles facile/moyenne/difficile.
-    Métriques : coût, nœuds développés, temps, OPEN max.
-    """
+
     print("\n" + "=" * 60)
     print("EXPÉRIENCE 1 : UCS vs Greedy vs A* — 3 grilles")
     print("=" * 60)
@@ -147,11 +137,7 @@ def experiment_1():
 # ==================================================================
 
 def experiment_2(n_episodes: int = 600):
-    """
-    Fixe A* sur grille moyenne, varie ε ∈ {0, 0.1, 0.2, 0.3}.
-    Mesure : P(GOAL) Markov (@n=60), P(GOAL) Monte-Carlo, moy. étapes.
-    Génère aussi la heatmap d'absorption.
-    """
+
     print("\n" + "=" * 60)
     print("EXPÉRIENCE 2 : Impact de ε sur la robustesse du plan A*")
     print("=" * 60)
@@ -403,10 +389,7 @@ def experiment_3():
 # ==================================================================
 
 def experiment_4():
-    """
-    Weighted A* avec w ∈ {1.0, 1.5, 2.0, 3.0, 5.0} sur grille difficile.
-    Compromis vitesse (nœuds) vs qualité (coût).
-    """
+
     print("\n" + "=" * 60)
     print("EXPÉRIENCE 4 : Weighted A* — Compromis vitesse / optimalité")
     print("=" * 60)

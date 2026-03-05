@@ -1,10 +1,4 @@
-"""
-grid.py — Définition et visualisation de la grille 2D.
 
-Convention :
-    0 = cellule libre
-    1 = obstacle
-"""
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches

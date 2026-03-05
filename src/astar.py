@@ -1,16 +1,4 @@
-"""
-astar.py — Algorithmes de recherche heuristique.
 
-Implémente :
-    - UCS  (Uniform Cost Search) : f = g
-    - Greedy Best-First          : f ≈ h  (w très grand)
-    - A*                         : f = g + h
-    - Weighted A*                : f = g + w·h  (w > 1)
-
-Heuristiques disponibles :
-    - manhattan(p, goal) — admissible et cohérente sur grille 4-connexe à coût 1
-    - zero_h(p, goal)    — équivalent à UCS quand utilisée dans A*
-"""
 import heapq
 import math
 import time
@@ -54,21 +42,7 @@ def _reconstruct(parent, start, goal):
 # ------------------------------------------------------------------
 
 def generic_search(grid, start, goal, heuristic=manhattan, weight: float = 1.0):
-    """
-    Recherche heuristique générique sur grille 2D.
-
-    Paramètres
-    ----------
-    heuristic : callable(state, goal) -> float
-    weight    : facteur multiplicatif sur h(n)
-                  1.0  → A* standard (optimal si h admissible)
-                  0.0  → UCS  (utiliser avec heuristic=zero_h)
-                  +inf → Greedy (utiliser avec un poids très grand)
-
-    Retourne
-    --------
-    dict avec : path, cost, nodes_expanded, time (s), max_open, found
-    """
+ 
     t0 = time.perf_counter()
 
     # Tas : (f, g, état)

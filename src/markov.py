@@ -1,15 +1,4 @@
-"""
-markov.py — Chaînes de Markov à temps discret pour la navigation sous incertitude.
 
-Fonctions principales :
-    build_policy_from_path  : politique dérivée du chemin A*
-    gradient_policy         : politique de repli (descente de Manhattan)
-    build_transition_matrix : construction de P stochastique
-    compute_distribution    : π(n) = π(0) · Pⁿ
-    absorption_analysis     : proba d'absorption + temps moyen (matrice fondamentale)
-    monte_carlo_simulation  : simulation de N trajectoires
-    markov_classes          : identification des classes de communication
-"""
 import numpy as np
 import random
 from collections import defaultdict
@@ -20,10 +9,7 @@ from collections import defaultdict
 # ------------------------------------------------------------------
 
 def build_policy_from_path(path: list) -> dict:
-    """
-    Construit une politique {état → prochain_état} à partir du chemin A*.
-    Le dernier état (GOAL) n'a pas de successeur dans la politique.
-    """
+   
     policy = {}
     for i in range(len(path) - 1):
         policy[path[i]] = path[i + 1]
@@ -31,12 +17,7 @@ def build_policy_from_path(path: list) -> dict:
 
 
 def gradient_policy(state, goal, grid):
-    """
-    Politique de repli pour les états hors chemin :
-    choisir le voisin libre qui minimise la distance de Manhattan au but.
-    Retourne le meilleur voisin disponible, ou None si aucun voisin libre.
-    (Toujours retourner un voisin évite les auto-boucles orphelines dans P.)
-    """
+
     nbs = grid.neighbors(state)
     if not nbs:
         return None
@@ -69,22 +50,7 @@ def _try_move(grid, state, d):
 # ------------------------------------------------------------------
 
 def build_transition_matrix(grid, policy: dict, epsilon: float = 0.1):
-    """
-    Construit la matrice stochastique P sur :
-        states_list = [cellules libres] + ['GOAL'] + ['FAIL']
 
-    La cellule goal est déclarée absorbante (P[goal_idx, goal_idx] = 1).
-    FAIL est absorbant (collision irréversible — non atteint dans ce modèle,
-    mais inclus pour l'analyse canonique).
-
-    Paramètres
-    ----------
-    epsilon : taux de déviation latérale (ε/2 par côté)
-
-    Retourne
-    --------
-    P, state_list, goal_idx, fail_idx
-    """
     free = grid.free_cells()
     state_list = list(free)
     state_idx = {s: i for i, s in enumerate(state_list)}
@@ -153,10 +119,7 @@ def build_transition_matrix(grid, policy: dict, epsilon: float = 0.1):
 # ------------------------------------------------------------------
 
 def compute_distribution(pi0: np.ndarray, P: np.ndarray, n_steps: int):
-    """
-    Calcule π(n) = π(0) · Pⁿ pour n = 0, 1, …, n_steps.
-    Retourne la liste des distributions (longueur n_steps + 1).
-    """
+  
     pi = pi0.copy()
     history = [pi.copy()]
     for _ in range(n_steps):
@@ -171,19 +134,7 @@ def compute_distribution(pi0: np.ndarray, P: np.ndarray, n_steps: int):
 
 def absorption_analysis(P: np.ndarray, state_list: list,
                         goal_idx: int, fail_idx: int):
-    """
-    Calcule les probabilités d'absorption et le temps moyen via la matrice fondamentale.
-
-    Décomposition canonique :
-        P = | Q  R |     (Q : transient→transient, R : transient→absorbant)
-            | 0  I |
-
-    N_fund = (I − Q)⁻¹   (matrice fondamentale)
-    B      = N_fund · R  (probabilités d'absorption par état transient)
-    t      = N_fund · 1  (temps moyen avant absorption)
-
-    Retourne None si dégénéré.
-    """
+    
     N = len(state_list)
     absorbing = {goal_idx, fail_idx}
     transient = [i for i in range(N) if i not in absorbing]
@@ -221,13 +172,7 @@ def monte_carlo_simulation(grid, policy: dict, start, goal,
                            n_episodes: int = 1000,
                            max_steps: int = 500,
                            seed: int = 42):
-    """
-    Simule n_episodes trajectoires depuis start en suivant policy + bruit ε.
-
-    Retourne
-    --------
-    dict : reach_rate, fail_rate, avg_steps, step_distribution, n_episodes
-    """
+   
     rng = random.Random(seed)
 
     goal_count = 0
@@ -289,16 +234,7 @@ def monte_carlo_simulation(grid, policy: dict, start, goal,
 # ------------------------------------------------------------------
 
 def markov_classes(P: np.ndarray, state_list: list, threshold: float = 1e-10):
-    """
-    Identifie les classes de communication par Kosaraju (SCC).
 
-    Retourne
-    --------
-    dict :
-        classes     — liste des classes (chaque classe = liste d'indices)
-        persistent  — indices des états persistants (récurrents)
-        transient   — indices des états transitoires
-    """
     N = len(state_list)
     adj = [[] for _ in range(N)]
     radj = [[] for _ in range(N)]
@@ -359,8 +295,8 @@ def markov_classes(P: np.ndarray, state_list: list, threshold: float = 1e-10):
         classes[c].append(i)
     classes_list = list(classes.values())
 
-    # Déterminer persistants vs transitoires
-    # Une classe C est persistante si aucune arête ne sort de C
+
+
     persistent_ids = set()
     for c_id, members in classes.items():
         member_set = set(members)

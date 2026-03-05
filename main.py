@@ -1,12 +1,4 @@
-"""
-main.py — Point d'entrée principal du mini-projet.
 
-Exécute dans l'ordre :
-    1. Les 4 expériences (figures sauvegardées dans outputs/figures/)
-
-Usage :
-    python main.py
-"""
 import os
 import sys
 import time
