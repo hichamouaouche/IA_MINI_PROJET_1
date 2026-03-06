@@ -519,10 +519,7 @@ Ou directement dans VS Code avec l'extension **Jupyter**.
 
 ## Auteur
 
-Projet réalisé dans le cadre du cours **Intelligence Artificielle**.
-
-**Stack technique :** Python 3.x · NumPy · Matplotlib · NetworkX
-
+HICHAM OUAOUCHE
 ---
 
-*Dernière mise à jour : Mars 2026*
+
